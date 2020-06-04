@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/briefing-portal/static/css/main.fedf5cc6.chunk.css",
+    "main.js": "/briefing-portal/static/js/main.45441e81.chunk.js",
+    "main.js.map": "/briefing-portal/static/js/main.45441e81.chunk.js.map",
+    "runtime-main.js": "/briefing-portal/static/js/runtime-main.d3cec7d3.js",
+    "runtime-main.js.map": "/briefing-portal/static/js/runtime-main.d3cec7d3.js.map",
+    "static/js/2.ef0b6a37.chunk.js": "/briefing-portal/static/js/2.ef0b6a37.chunk.js",
+    "static/js/2.ef0b6a37.chunk.js.map": "/briefing-portal/static/js/2.ef0b6a37.chunk.js.map",
+    "index.html": "/briefing-portal/index.html",
+    "precache-manifest.980ba747c6d07793f3dd832bedeecaf7.js": "/briefing-portal/precache-manifest.980ba747c6d07793f3dd832bedeecaf7.js",
+    "service-worker.js": "/briefing-portal/service-worker.js",
+    "static/css/main.fedf5cc6.chunk.css.map": "/briefing-portal/static/css/main.fedf5cc6.chunk.css.map",
+    "static/js/2.ef0b6a37.chunk.js.LICENSE.txt": "/briefing-portal/static/js/2.ef0b6a37.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.d3cec7d3.js",
+    "static/js/2.ef0b6a37.chunk.js",
+    "static/css/main.fedf5cc6.chunk.css",
+    "static/js/main.45441e81.chunk.js"
+  ]
+}
