@@ -1,53 +1,22 @@
 import React from "react";
-import SimpleCard from "./card";
+import ThemeCard from "./themeCard";
+import PostCard from "./postCard";
 
-class Posts extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      error: null,
-      isLoaded: false,
-      items: [],
-    };
+export default function Posts(props) {
+  const { items } = props;
+  if (JSON.stringify(items) === "{}") {
+    return "Loading...";
+  }
+  let cardFormat;
+  if (props.cardType === "post") {
+    cardFormat = items.map((item) => (
+      <PostCard key={item.id} cardInfo={item} />
+    ));
+  } else {
+    cardFormat = items.map((item) => (
+      <ThemeCard key={item.name_id} cardInfo={item} />
+    ));
   }
 
-  componentDidMount() {
-    fetch("http://13.72.78.124:1337/themes")
-      .then((res) => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            isLoaded: true,
-            items: result,
-          });
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error,
-          });
-        }
-      );
-  }
-  render() {
-    const { error, isLoaded, items } = this.state;
-    if (error) {
-      return <div>Error: {error.message}</div>;
-    } else if (!isLoaded) {
-      return <div>Loading...</div>;
-    } else {
-      return (
-        <div>
-          {items.map((item) => (
-            <SimpleCard item={item} />
-          ))}
-        </div>
-      );
-    }
-  }
+  return <React.Fragment>{cardFormat}</React.Fragment>;
 }
-
-export default Posts;
