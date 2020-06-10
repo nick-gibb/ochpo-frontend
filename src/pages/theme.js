@@ -1,13 +1,13 @@
 import React from "react";
-import TitleHeader from "./titleHeader";
+import TitleHeader from "../layout/misc/titleHeader";
 import Grid from "@material-ui/core/Grid";
-import FormNewTheme from "./formNewTheme.js";
 import { makeStyles } from "@material-ui/core/styles";
 import AddIcon from "@material-ui/icons/Add";
 import Fab from "@material-ui/core/Fab";
 import { Typography } from "@material-ui/core";
-import ThemeCard from "./themeCard";
-
+import FormNewPost from "../forms/newPost";
+import PostCard from "../cards/post";
+import { useParams } from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
   fab: {
     position: "fixed",
@@ -16,24 +16,29 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CardStructure(props) {
+export default function CardStructure() {
   const classes = useStyles();
-
-  const [theForm, setTheForm] = React.useState({
-    open: false,
-    description: "",
-    title: "",
-  });
-
-  const [themes, setThemes] = React.useState({});
+  const [title, setTitle] = React.useState('');
   const [error, setError] = React.useState(null);
   const [isLoaded, setIsLoaded] = React.useState(false);
+  const [theForm, setTheForm] = React.useState({
+    open: false,
+    subject: "",
+    body: "",
+  })
+
+  let params = useParams();
+
+  const [posts, setPosts] = React.useState({});
+
   React.useEffect(() => {
-    fetch("http://localhost:1337/themes")
+    fetch("http://localhost:1337/themes?name_id=" + params.id)
       .then((res) => res.json())
       .then(
         (result) => {
-          result.sort(function (a, b) {
+            setTitle(result[0].title);
+        let posts_unsorted = result[0].posts;
+          posts_unsorted.sort(function (a, b) {
             var keyA = new Date(a.last_post),
               keyB = new Date(b.last_post);
             if (keyA > keyB) return -1;
@@ -41,7 +46,7 @@ export default function CardStructure(props) {
             return 0;
           });
           setIsLoaded(true);
-          setThemes(result);
+          setPosts(posts_unsorted);
         },
         (error) => {
           setIsLoaded(true);
@@ -55,7 +60,7 @@ export default function CardStructure(props) {
   const handleSubmit = (evt) => {
     setTheForm({ open: false });
 
-    fetch("http://localhost:1337/themes", {
+    fetch("http://localhost:1337/posts", {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -69,12 +74,17 @@ export default function CardStructure(props) {
     })
       .then((res) => res.json())
       .then((result) => {
-        setThemes((themes) => [...themes, result]);
+        setPosts((posts) => [...posts, result]);
       });
     evt.preventDefault();
   };
 
+
+
+
   const handleChange = (e) => {
+    console.log(e)
+
     const { name, value } = e.target;
     setTheForm((prevState) => ({
       ...prevState,
@@ -83,22 +93,16 @@ export default function CardStructure(props) {
   };
 
   let grid_cards;
-  if (!themes.length) {
+  if (!posts.length) {
     grid_cards = <Typography variant="h6">No posts yet!</Typography>;
   } else {
-      grid_cards = themes.map((item) => (
-        <ThemeCard key={item.name_id} cardInfo={item} />
-      ));
+    grid_cards = posts.map((post) => (
+    <PostCard key={post.id} cardInfo={post} />
+    ));
   }
 
-  const specified_form = (
-      <FormNewTheme
-        open={open}
-        onClose={() => setTheForm({ open: false })}
-        handleSubmit={handleSubmit}
-        onChange={handleChange}
-      />
-    );
+
+  
 
   if (error) {
     return <div>Error: {error.message}</div>;
@@ -107,11 +111,15 @@ export default function CardStructure(props) {
   } else {
     return (
       <React.Fragment>
-        <TitleHeader title="Briefing Portal" />
+        <TitleHeader title={title} />
         <Grid container style={{ marginTop: 20 }}>
           {grid_cards}
         </Grid>
-        {specified_form}
+              <FormNewPost
+        open={open}
+        onChange={handleChange}
+        onClose={() => setTheForm({ open: false, title: "" })}
+      />
         <div className={classes.fab}>
           <Fab
             onClick={() => setTheForm({ open: true })}

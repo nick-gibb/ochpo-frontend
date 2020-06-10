@@ -4,7 +4,7 @@ import { Typography } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import Fab from "@material-ui/core/Fab";
 import Box from "@material-ui/core/Box";
-import PaperSpace from "./paperspace";
+import PaperSpace from "../layout/misc/paperspace";
 
 const styles = (theme) => ({
   root: {

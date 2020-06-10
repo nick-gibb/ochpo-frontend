@@ -2,7 +2,7 @@ import React from "react";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import TitleHeader from "./titleHeader";
+import TitleHeader from "../layout/misc/titleHeader";
 
 export default class Register extends React.Component {
   constructor(props) {

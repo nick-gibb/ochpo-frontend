@@ -6,7 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import { Link } from "react-router-dom";
-import "./postCard.css";
+import "./styles/post.css";
 
 const useStyles = makeStyles({
   title: {

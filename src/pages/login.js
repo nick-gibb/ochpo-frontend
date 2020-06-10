@@ -4,10 +4,10 @@ import Grid from "@material-ui/core/Grid";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
-import NavBar from "./appbar";
-import UnAuthNavBar from "./unauthNavBar";
-import TitleHeader from "./titleHeader";
 import { Route, Redirect, Link, withRouter } from "react-router-dom";
+import NavBar from "../layout/navbar/authorized";
+import UnAuthNavBar from "../layout/navbar/unauthorized";
+import TitleHeader from "../layout/misc/titleHeader";
 
 const fakeAuth = {
   isAuthenticated: Boolean(localStorage.getItem("token")),
@@ -70,6 +70,7 @@ export default class Login extends React.Component {
       password: "",
       checkbox: true,
       redirectToReferrer: false,
+      error: false
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -97,9 +98,9 @@ export default class Login extends React.Component {
         .then((res) => res.json())
         .then((result) => {
           if (!result.jwt) {
+              this.setState({error:true})
             return;
           }
-          console.log(this.state.checkbox);
           if (this.state.checkbox) {
             localStorage.setItem("token", result.jwt);
           }
@@ -137,6 +138,7 @@ export default class Login extends React.Component {
                 id="standard-required"
                 label="Username"
                 name="username"
+                error={this.state.error}
                 value={this.state.value}
                 onChange={this.handleChange}
               />
@@ -145,6 +147,7 @@ export default class Login extends React.Component {
               <TextField
                 label="Password"
                 type="password"
+                error={this.state.error}
                 name="password"
                 onChange={this.handleChange}
               />

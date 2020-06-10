@@ -6,7 +6,6 @@ import Button from "@material-ui/core/Button";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import { makeStyles } from "@material-ui/core/styles";
-import MUIRichTextEditor from "mui-rte";
 import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles((theme) => ({
@@ -22,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function FormNewPost(props) {
   const classes = useStyles();
-  const { onClose, open } = props;
+  const { onClose, open, onChange } = props;
 
   const handleClose = () => {
     onClose();
@@ -33,7 +32,7 @@ export default function FormNewPost(props) {
       onClose={handleClose}
       aria-labelledby="form-dialog-title"
       open={open}
-      maxWidth='lg'
+      maxWidth="lg"
       fullWidth={true}
     >
       <DialogTitle id="form-dialog-title">New Post</DialogTitle>
@@ -43,17 +42,20 @@ export default function FormNewPost(props) {
           autoFocus
           margin="dense"
           id="name"
+          onChange={onChange}
+          name="subject"
           label="Subject"
           fullWidth
         />
 
-        <MUIRichTextEditor
-          label="Body text"
-          controls={[
-            "bold",
-            "italic",
-            "underline",
-          ]}
+        <TextField
+          autoFocus
+          margin="dense"
+          id="body"
+          onChange={onChange}
+          name="body"
+          label="Body"
+          fullWidth
         />
 
         <Box mt={8} />

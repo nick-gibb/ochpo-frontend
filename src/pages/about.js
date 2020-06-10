@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography } from "@material-ui/core";
-import PaperSpace from "./paperspace";
+import PaperSpace from "../layout/misc/paperspace";
 
 export default function About() {
   return (

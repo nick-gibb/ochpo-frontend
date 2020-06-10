@@ -1,13 +1,14 @@
 import React from "react";
-import ThemesPage from "./themesPage";
 import Container from "@material-ui/core/Container";
 
-import ThemePageStructure from "./themePage";
-import PostTemplate from "./postTemplate";
-import Profile from "./profile";
-import About from "./about";
-import Register from "./register";
-import Login, { AuthButton, PrivateRoute } from "./login";
+import ThemesPage from "./pages/themes";
+import ThemePage from "./pages/theme";
+import PostPage from "./pages/posts";
+import Profile from "./pages/profile";
+import About from "./pages/about";
+import Register from "./pages/register";
+import Login, { AuthButton, PrivateRoute } from "./pages/login";
+
 
 import {
   BrowserRouter as Router,
@@ -34,8 +35,8 @@ export default function App() {
           <Route path="/about" component={About} />
           <Route path="/register" component={Register} />
           <Route path="/login" component={Login} />
-          <PrivateRoute path={"/posts/:id"} component={PostTemplate} />
-          <PrivateRoute path={"/theme/:id"} component={ThemePageStructure} />
+          <PrivateRoute path={"/posts/:id"} component={PostPage} />
+          <PrivateRoute path={"/theme/:id"} component={ThemePage} />
           <PrivateRoute path="/profile" component={Profile} />
           <PrivateRoute path={"/themes"} component={ThemesPage} />
           <Redirect from="/" exact to="/themes" />
