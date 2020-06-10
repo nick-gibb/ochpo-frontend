@@ -1,43 +1,33 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import TitleHeader from "../layout/misc/titleHeader";
 import Grid from "@material-ui/core/Grid";
-import { makeStyles } from "@material-ui/core/styles";
-import AddIcon from "@material-ui/icons/Add";
-import Fab from "@material-ui/core/Fab";
 import { Typography } from "@material-ui/core";
 import FormNewPost from "../forms/newPost";
 import PostCard from "../cards/post";
 import { useParams } from "react-router-dom";
-const useStyles = makeStyles((theme) => ({
-  fab: {
-    position: "fixed",
-    bottom: theme.spacing(8),
-    right: theme.spacing(5),
-  },
-}));
+import MyFab from "../layout/misc/fab";
+
 
 export default function CardStructure() {
-  const classes = useStyles();
-  const [title, setTitle] = React.useState('');
-  const [error, setError] = React.useState(null);
-  const [isLoaded, setIsLoaded] = React.useState(false);
-  const [theForm, setTheForm] = React.useState({
+  const [title, setTitle] = useState("");
+  const [error, setError] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [theForm, setTheForm] = useState({
     open: false,
     subject: "",
     body: "",
-  })
+  });
+
+  const [posts, setPosts] = useState({});
 
   let params = useParams();
-
-  const [posts, setPosts] = React.useState({});
-
-  React.useEffect(() => {
+  useEffect(() => {
     fetch("http://localhost:1337/themes?name_id=" + params.id)
       .then((res) => res.json())
       .then(
         (result) => {
-            setTitle(result[0].title);
-        let posts_unsorted = result[0].posts;
+          setTitle(result[0].title);
+          let posts_unsorted = result[0].posts;
           posts_unsorted.sort(function (a, b) {
             var keyA = new Date(a.last_post),
               keyB = new Date(b.last_post);
@@ -79,11 +69,8 @@ export default function CardStructure() {
     evt.preventDefault();
   };
 
-
-
-
   const handleChange = (e) => {
-    console.log(e)
+    console.log(e);
 
     const { name, value } = e.target;
     setTheForm((prevState) => ({
@@ -97,12 +84,9 @@ export default function CardStructure() {
     grid_cards = <Typography variant="h6">No posts yet!</Typography>;
   } else {
     grid_cards = posts.map((post) => (
-    <PostCard key={post.id} cardInfo={post} />
+      <PostCard key={post.id} cardInfo={post} />
     ));
   }
-
-
-  
 
   if (error) {
     return <div>Error: {error.message}</div>;
@@ -115,20 +99,18 @@ export default function CardStructure() {
         <Grid container style={{ marginTop: 20 }}>
           {grid_cards}
         </Grid>
-              <FormNewPost
-        open={open}
-        onChange={handleChange}
-        onClose={() => setTheForm({ open: false, title: "" })}
-      />
-        <div className={classes.fab}>
-          <Fab
-            onClick={() => setTheForm({ open: true })}
-            color="primary"
-            aria-label="add"
-          >
-            <AddIcon />
-          </Fab>
-        </div>
+        <FormNewPost
+          open={open}
+          onChange={handleChange}
+          onClose={() => setTheForm({ open: false, title: "" })}
+        />
+
+        <MyFab
+          onClick={() => setTheForm({ open: true })}
+          toolTipMsg="Add Theme"
+          color="primary"
+          icon="AddIcon"
+        />
       </React.Fragment>
     );
   }

@@ -6,7 +6,13 @@ import Button from "@material-ui/core/Button";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import { makeStyles } from "@material-ui/core/styles";
-import Box from "@material-ui/core/Box";
+import Checkbox from "@material-ui/core/Checkbox";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
+import CheckBoxIcon from "@material-ui/icons/CheckBox";
+
+const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,7 +41,7 @@ export default function FormNewPost(props) {
       maxWidth="lg"
       fullWidth={true}
     >
-      <DialogTitle id="form-dialog-title">New Post</DialogTitle>
+      <DialogTitle id="form-dialog-title">New Report</DialogTitle>
       <DialogContent>
         {/* <DialogContentText>Enter a new update below.</DialogContentText> */}
         <TextField
@@ -58,7 +64,32 @@ export default function FormNewPost(props) {
           fullWidth
         />
 
-        <Box mt={8} />
+        <Autocomplete
+          multiple
+          id="checkboxes-tags-demo"
+          options={emails}
+          disableCloseOnSelect
+          getOptionLabel={(option) => option.email}
+          renderOption={(option, { selected }) => (
+            <React.Fragment>
+              <Checkbox
+                icon={icon}
+                checkedIcon={checkedIcon}
+                style={{ marginRight: 8 }}
+                checked={selected}
+              />
+              {option.email}
+            </React.Fragment>
+          )}
+          style={{ marginTop: 15 }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Send email notifications"
+            />
+          )}
+        />
+
         <input
           accept="image/*"
           className={classes.input}
@@ -67,7 +98,12 @@ export default function FormNewPost(props) {
           type="file"
         />
         <label htmlFor="contained-button-file">
-          <Button variant="contained" color="primary" component="span">
+          <Button
+            variant="outlined"
+            color="primary"
+            component="span"
+            style={{ marginTop: 15 }}
+          >
             Add attachments
           </Button>
         </label>
@@ -83,3 +119,11 @@ export default function FormNewPost(props) {
     </Dialog>
   );
 }
+
+const emails = [
+  { email: "susan.ternan@canada.ca" },
+  { email: "nicholas.gibb@canada.ca" },
+  { email: "sheriff.abdou@canada.ca" },
+  { email: "kelsey.tonin@canada.ca" },
+  { email: "teresa.tam@canada.ca" },
+];

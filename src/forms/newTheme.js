@@ -16,7 +16,7 @@ export default function FormNewTheme(props) {
       <DialogTitle id="form-dialog-title">New Theme</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Reports are grouped into distinct themes. Create a new bucket by
+          Reports are grouped into distinct themes. Create a new theme by
           entering a suitable title and description below.
         </DialogContentText>
         <TextField
@@ -25,15 +25,22 @@ export default function FormNewTheme(props) {
           onChange={onChange}
           name="title"
           id="title"
+                    inputProps={{
+            maxLength: 50,
+          }}
+          required
           label="Title"
           fullWidth
         />
         <TextField
-          autoFocus
           margin="dense"
           id="description"
           name="description"
-          label="Description"
+          label="Short description"
+          inputProps={{
+            maxLength: 75,
+          }}
+          required
           multiline
           onChange={onChange}
           fullWidth

@@ -38,7 +38,7 @@ export default function App() {
           <PrivateRoute path={"/posts/:id"} component={PostPage} />
           <PrivateRoute path={"/theme/:id"} component={ThemePage} />
           <PrivateRoute path="/profile" component={Profile} />
-          <PrivateRoute path={"/themes"} component={ThemesPage} />
+          <PrivateRoute path={"/themes/"} component={ThemesPage} />
           <Redirect from="/" exact to="/themes" />
         </Switch>
       </Layout>

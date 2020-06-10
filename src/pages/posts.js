@@ -1,10 +1,9 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import { Typography } from "@material-ui/core";
-import EditIcon from "@material-ui/icons/Edit";
-import Fab from "@material-ui/core/Fab";
 import Box from "@material-ui/core/Box";
 import PaperSpace from "../layout/misc/paperspace";
+import MyFab from "../layout/misc/fab";
 
 const styles = (theme) => ({
   root: {
@@ -13,12 +12,7 @@ const styles = (theme) => ({
   paper: {
     padding: theme.spacing(2),
     marginTop: theme.spacing(10),
-  },
-  fab: {
-    position: "fixed",
-    bottom: theme.spacing(8),
-    right: theme.spacing(5),
-  },
+  }
 });
 
 class PostTemplate extends React.Component {
@@ -69,8 +63,6 @@ class PostTemplate extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
-
     const { error, isLoaded, post, authors } = this.state;
 
     if (error) {
@@ -92,15 +84,11 @@ class PostTemplate extends React.Component {
             <Typography>{post.description}</Typography>
           </PaperSpace>
           <Box display="block" displayPrint="none">
-            <div className={classes.fab}>
-              <Fab
-                //   onClick={() => setTheForm({ open: true })}
-                color="secondary"
-                aria-label="edit"
-              >
-                <EditIcon />
-              </Fab>
-            </div>
+            <MyFab
+              color="secondary"
+              toolTipMsg="Edit"
+              icon="EditIcon"
+            />
           </Box>
         </React.Fragment>
       );

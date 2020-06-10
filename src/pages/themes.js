@@ -1,34 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import TitleHeader from "../layout/misc/titleHeader";
 import Grid from "@material-ui/core/Grid";
 import FormNewTheme from "../forms/newTheme.js";
-import { makeStyles } from "@material-ui/core/styles";
-import AddIcon from "@material-ui/icons/Add";
-import Fab from "@material-ui/core/Fab";
 import { Typography } from "@material-ui/core";
 import ThemeCard from "../cards/theme";
+import MyFab from "../layout/misc/fab";
 
-const useStyles = makeStyles((theme) => ({
-  fab: {
-    position: "fixed",
-    bottom: theme.spacing(8),
-    right: theme.spacing(5),
-  },
-}));
 
 export default function CardStructure() {
-  const classes = useStyles();
 
-  const [theForm, setTheForm] = React.useState({
+  const [theForm, setTheForm] = useState({
     open: false,
     description: "",
     title: "",
   });
 
-  const [themes, setThemes] = React.useState({});
-  const [error, setError] = React.useState(null);
-  const [isLoaded, setIsLoaded] = React.useState(false);
-  React.useEffect(() => {
+  const [themes, setThemes] = useState({});
+  const [error, setError] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  useEffect(() => {
     fetch("http://localhost:1337/themes")
       .then((res) => res.json())
       .then(
@@ -51,6 +41,10 @@ export default function CardStructure() {
   }, []);
 
   const { open } = theForm;
+
+  const onClose = () => {
+    setTheForm({ open: false });
+  };
 
   const handleSubmit = (evt) => {
     setTheForm({ open: false });
@@ -86,11 +80,10 @@ export default function CardStructure() {
   if (!themes.length) {
     grid_cards = <Typography variant="h6">No posts yet!</Typography>;
   } else {
-      grid_cards = themes.map((item) => (
-        <ThemeCard key={item.name_id} cardInfo={item} />
-      ));
+    grid_cards = themes.map((item) => (
+      <ThemeCard key={item.name_id} cardInfo={item} />
+    ));
   }
-
 
   if (error) {
     return <div>Error: {error.message}</div>;
@@ -103,21 +96,19 @@ export default function CardStructure() {
         <Grid container style={{ marginTop: 20 }}>
           {grid_cards}
         </Grid>
-              <FormNewTheme
-        open={open}
-        onClose={() => setTheForm({ open: false })}
-        handleSubmit={handleSubmit}
-        onChange={handleChange}
-      />
-        <div className={classes.fab}>
-          <Fab
-            onClick={() => setTheForm({ open: true })}
-            color="primary"
-            aria-label="add"
-          >
-            <AddIcon />
-          </Fab>
-        </div>
+        <FormNewTheme
+          open={open}
+          onClose={onClose}
+          handleSubmit={handleSubmit}
+          onChange={handleChange}
+        />
+
+        <MyFab
+          onClick={() => setTheForm({ open: true })}
+          color="primary"
+          toolTipMsg="Add Theme"
+          icon="AddIcon"
+        />
       </React.Fragment>
     );
   }
