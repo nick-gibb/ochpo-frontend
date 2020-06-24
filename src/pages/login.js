@@ -4,63 +4,16 @@ import Grid from "@material-ui/core/Grid";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
-import { Route, Redirect, Link, withRouter } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import NavBar from "../layout/navbar/authorized";
-import UnAuthNavBar from "../layout/navbar/unauthorized";
+// import UnAuthNavBar from "../layout/navbar/unauthorized";
 import TitleHeader from "../layout/misc/titleHeader";
 
-const fakeAuth = {
-  isAuthenticated: Boolean(localStorage.getItem("token")),
-  authenticate(cb) {
-    this.isAuthenticated = true;
-    setTimeout(cb, 100); // fake async
-  },
-  signout(cb) {
-    localStorage.removeItem("token");
-    this.isAuthenticated = false;
-    setTimeout(cb, 100); // fake async
-  },
-};
-
-export const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route
-    {...rest}
-    render={(props) =>
-      fakeAuth.isAuthenticated === true ? (
-        <Component {...props} />
-      ) : (
-        <Redirect
-          to={{
-            pathname: "/login",
-            state: { from: props.location },
-          }}
-        />
-      )
-    }
-  />
-);
-
-export const AuthButton = withRouter(({ history }) =>
-  fakeAuth.isAuthenticated ? (
-    <NavBar>
-      <Button
-        color="inherit"
-        edge="end"
-        onClick={() => {
-          fakeAuth.signout(() => history.push("/"));
-        }}
-      >
-        Sign out
-      </Button>
-    </NavBar>
-  ) : (
-    <UnAuthNavBar>
-      <Button color="inherit" edge="end" component={Link} to="/login">
-        Sign In
-      </Button>
-    </UnAuthNavBar>
-  )
-);
+export function Navigation(props) {
+  return (
+    <NavBar items={props.items} titleActivePage={props.titleActivePage} />
+  );
+}
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -70,7 +23,7 @@ export default class Login extends React.Component {
       password: "",
       checkbox: true,
       redirectToReferrer: false,
-      error: false
+      error: false,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -85,31 +38,31 @@ export default class Login extends React.Component {
     }
   }
 
-  login = () => {
-    fakeAuth.authenticate(() => {
-      fetch("http://localhost:1337/auth/local", {
-        method: "post",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          identifier: this.state.username,
-          password: this.state.password,
-        }),
-      })
-        .then((res) => res.json())
-        .then((result) => {
-          if (!result.jwt) {
-              this.setState({error:true})
-            return;
-          }
-          if (this.state.checkbox) {
-            localStorage.setItem("token", result.jwt);
-          }
-          this.setState(() => ({
-            redirectToReferrer: true,
-          }));
-        });
-    });
-  };
+  //   login = () => {
+  //     fakeAuth.authenticate(() => {
+  //       fetch("http://localhost:1337/auth/local", {
+  //         method: "post",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify({
+  //           identifier: this.state.username,
+  //           password: this.state.password,
+  //         }),
+  //       })
+  //         .then((res) => res.json())
+  //         .then((result) => {
+  //           if (!result.jwt) {
+  //             this.setState({ error: true });
+  //             return;
+  //           }
+  //           if (this.state.checkbox) {
+  //             localStorage.setItem("token", result.jwt);
+  //           }
+  //           this.setState(() => ({
+  //             redirectToReferrer: true,
+  //           }));
+  //         });
+  //     });
+  //   };
   render() {
     const { from } = this.props.location.state || { from: { pathname: "/" } };
     const { redirectToReferrer } = this.state;
@@ -118,7 +71,7 @@ export default class Login extends React.Component {
       return <Redirect to={from} />;
     }
     if (Boolean(localStorage.getItem("token"))) {
-      return <Redirect to="/" />
+      return <Redirect to="/" />;
     }
     return (
       <React.Fragment>
@@ -174,6 +127,12 @@ export default class Login extends React.Component {
                 }
                 label="Remember me"
               />
+            </Grid>
+            <Grid item>
+              <Link href="#">Forget password?</Link>
+            </Grid>
+            <Grid item>
+              <Link href="#">Register</Link>
             </Grid>
           </form>
         </Grid>

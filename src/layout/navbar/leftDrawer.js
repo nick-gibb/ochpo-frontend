@@ -6,12 +6,8 @@ import { Link } from "react-router-dom";
 import { List } from "@material-ui/core";
 
 export default function LeftDrawer(props) {
-  const { error, isLoaded, items } = props;
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  } else if (!isLoaded) {
-    return null;
-  } else {
+  const { items } = props;
+
     return (
       <SwipeableDrawer
         open={props.open}
@@ -39,8 +35,8 @@ export default function LeftDrawer(props) {
                 key={item.title}
                 component={Link}
                 to={{
-                  pathname: "/theme/" + item.name_id,
-                  state: { name: item.title },
+                  pathname: "/themes/" + item.name_id,
+                //   state: { name: item.title },
                 }}
               >
                 <ListItemText primary={item.title} />
@@ -50,5 +46,4 @@ export default function LeftDrawer(props) {
         </div>
       </SwipeableDrawer>
     );
-  }
 }

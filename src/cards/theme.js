@@ -12,7 +12,7 @@ const useStyles = makeStyles({
     fontSize: 12,
   },
   cardStyle: {
-    margin: 10,
+    margin: 3,
     // height: "100%"
   },
 });
@@ -20,26 +20,30 @@ const useStyles = makeStyles({
 export default function CardHomeItem(props) {
   const classes = useStyles();
   let updateMsg;
-  if(props.cardInfo.last_post != null){
-      updateMsg = `Last update: ${new Date(props.cardInfo.last_post).toDateString()}`
+  if (props.cardInfo.last_post != null) {
+    updateMsg = `Last update: ${new Date(
+      props.cardInfo.last_post
+    ).toDateString()}`;
   } else {
-      updateMsg = "No updates"
+    updateMsg = "No updates";
   }
   return (
-    <Grid item xs={12} md={6} lg={4}>
-      <Card className={classes.cardStyle}>
-        <CardActionArea component={Link} to={{
-            pathname: "/theme/" + props.cardInfo.name_id,
-            state: {'cardInfo':props.cardInfo}}
-        }>
+    <Grid item xs={12} sm={6} md={4} lg={3}>
+      <Card className={classes.cardStyle} variant="outlined">
+        <CardActionArea
+          component={Link}
+          to={{
+            pathname: "/themes/" + props.cardInfo.name_id,
+          }}
+        >
           <CardContent>
-            <Typography variant="h5" component="h2">
-              {props.cardInfo.title}
-            </Typography>
-            <Typography variant="body2" component="p">
+              <Typography variant="h6" noWrap component="h6">
+                {props.cardInfo.title}
+              </Typography>
+            <Typography variant="body2" noWrap component="p">
               {props.cardInfo.description}
             </Typography>
-            <Typography className={classes.pos} color="textSecondary">
+            <Typography className={classes.pos} noWrap color="textSecondary">
               {updateMsg}
             </Typography>
           </CardContent>

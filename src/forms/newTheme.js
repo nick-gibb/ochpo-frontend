@@ -16,16 +16,17 @@ export default function FormNewTheme(props) {
       <DialogTitle id="form-dialog-title">New Theme</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Reports are grouped into distinct themes. Create a new theme by
-          entering a suitable title and description below.
+          Create a new report grouping by entering a suitable title and description.
         </DialogContentText>
         <TextField
           autoFocus
           margin="dense"
           onChange={onChange}
           name="title"
+          error={props.errors.title}
           id="title"
-                    inputProps={{
+          helperText="Required"
+          inputProps={{
             maxLength: 50,
           }}
           required
@@ -42,6 +43,8 @@ export default function FormNewTheme(props) {
           }}
           required
           multiline
+          error={props.errors.description}
+          helperText="Required"
           onChange={onChange}
           fullWidth
         />

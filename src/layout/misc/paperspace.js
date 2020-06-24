@@ -3,6 +3,8 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from '@material-ui/core/styles';
 
+import Container from "@material-ui/core/Container";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -17,12 +19,12 @@ export default function PaperSpace(props) {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <Container >
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Paper className={classes.paper}>{props.children}</Paper>
         </Grid>
       </Grid>
-    </div>
+    </Container>
   );
 }
